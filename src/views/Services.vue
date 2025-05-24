@@ -46,7 +46,10 @@
                   {{ feature }}
                 </li>
               </ul>
-              <router-link to="/contacts" class="btn btn-primary">Заказать услугу</router-link>
+              <div class="service-actions">
+                <router-link :to="{ name: 'service-details', params: { id: service.id }}" class="btn btn-primary">Подробнее</router-link>
+                <router-link to="/contacts" class="btn btn-secondary">Заказать услугу</router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -87,12 +90,12 @@ const services = ref([
     category: 'roofing',
     title: 'Кровельные работы',
     description: 'Комплексные архитектурные решения для жилых и коммерческих проектов.',
-    image: new URL('@/assets/images/services/design.jpg', import.meta.url).href,
+    image: new URL('@/assets/images/services/roof.avif', import.meta.url).href,
     features: [
-      'Custom architectural plans', 
-      '3D visualization',
-      'Building code compliance',
-      'Sustainable design options'
+      'Сборка несущей конструкции', 
+      'Обустройство «первой линии защиты»',
+      'Укладка утеплителя, гидро- и пароизоляции',
+      'Монтаж кровли'
     ]
   },
   {
@@ -100,12 +103,11 @@ const services = ref([
     category: 'finishing',
     title: 'Отделочные работы',
     description: 'Творческие внутренние решения, отражающие ваш стиль и удовлетворяющие вашим потребностям.',
-    image: new URL('@/assets/images/services/design.jpg', import.meta.url).href,    
+    image: new URL('@/assets/images/services/finish.avif', import.meta.url).href,    
     features: [
-      'Space planning',
-      'Material selection',
-      'Lighting design',
-      'Furniture layout'
+      'Подготовительные работы (демонтаж, выравнивание, гидроизоляция)',
+      'Основные работы (штукатурка и шпаклевка, монтаж гипсокартона и тд.)',
+      'Финишные работы (покраска и оклейка обоями, укладка напольных покрытий и т.д)',
     ]
   },
   {
@@ -113,12 +115,12 @@ const services = ref([
     category: 'concrete',
     title: 'Бетонные работы',
     description: 'Качественные строительные услуги для домов и жилых помещений.',
-    image: new URL('@/assets/images/services/design.jpg', import.meta.url).href,
+    image: new URL('@/assets/images/services/concrete.avif', import.meta.url).href,
     features: [
-      'Custom home building',
-      'Home extensions',
-      'Foundation work',
-      'Quality materials'
+      'Железобетонные работы',
+      'Подготовка и установка опалубки',
+      'Укладка и уплотнение бетонной смеси',
+      'Распалубка'
     ]
   },
   {
@@ -126,12 +128,12 @@ const services = ref([
     category: 'engineering',
     title: 'Прокладка инженерных коммуникаций',
     description: 'Профессиональные строительные услуги для коммерческих и промышленных проектов.',
-    image: new URL('@/assets/images/services/design.jpg', import.meta.url).href,
+    image: new URL('@/assets/images/services/lying.avif', import.meta.url).href,
     features: [
-      'Office buildings',
-      'Retail spaces',
-      'Industrial facilities',
-      'Project management'
+      'Канализация',
+      'Водоснабжение',
+      'Электро- теплосети',
+      'Обустройство уличного освещения'
     ]
   }
 ])
@@ -239,18 +241,19 @@ const processSteps = ref([
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
+
     @include tablet {
       grid-template-columns: 1fr;
     }
 
     .service-image {
-      height: 400px;
       overflow: hidden;
+      height: 100%;
 
       img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: fill;
       }
     }
 
@@ -281,6 +284,38 @@ const processSteps = ref([
         }
       }
     }
+
+    .service-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: $transition;
+
+      &.btn-primary {
+        background-color: $primary-color;
+        color: $white;
+
+        &:hover {
+          background-color: darken($primary-color, 10%);
+        }
+      }
+
+      &.btn-secondary {
+        background-color: $light-gray;
+        color: $text-color;
+
+        &:hover {
+          background-color: darken($light-gray, 10%);
+        }
+      }
+    }
   }
 
   .process {
@@ -294,13 +329,13 @@ const processSteps = ref([
     &-steps {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
+      gap: 1rem;
     }
   }
 
   .process-step {
     text-align: center;
-    padding: 2rem;
+    padding: 2rem 1rem;
     background: $white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -320,6 +355,7 @@ const processSteps = ref([
 
     h3 {
       margin-bottom: 1rem;
+      font-size: 28px;
     }
   }
 }

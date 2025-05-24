@@ -30,11 +30,72 @@
         </div>
       </div>
     </div>
+
+    <div class="container">
+      <div class="header-content">
+        <router-link to="/" class="logo">
+          <img src="@/assets/logo.svg" alt="Region24">
+        </router-link>
+
+        <nav class="nav">
+          <router-link to="/" class="nav-link">Главная</router-link>
+          <router-link to="/about" class="nav-link">О нас</router-link>
+          <router-link to="/services" class="nav-link">Услуги</router-link>
+          <router-link to="/projects" class="nav-link">Проекты</router-link>
+          <router-link to="/contacts" class="nav-link">Контакты</router-link>
+        </nav>
+
+        <div class="auth-buttons">
+          <template v-if="isAuthenticated">
+            <router-link to="/profile" class="btn btn-outline">
+              <i class="fas fa-user"></i>
+              Личный кабинет
+            </router-link>
+            <button @click="handleLogout" class="btn btn-text">
+              <i class="fas fa-sign-out-alt"></i>
+              Выйти
+            </button>
+          </template>
+          <button v-else @click="openLoginModal" class="btn btn-primary">
+            <i class="fas fa-sign-in-alt"></i>
+            Войти
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <LoginModal 
+      :is-open="isLoginModalOpen"
+      @close="closeLoginModal"
+      @login-success="handleLoginSuccess"
+    />
   </header>
 </template>
 
 <script setup>
-// Component logic here
+import LoginModal from './LoginModal.vue'
+
+const isLoginModalOpen = ref(false)
+const isAuthenticated = computed(() => !!localStorage.getItem('user'))
+
+const openLoginModal = () => {
+  isLoginModalOpen.value = true
+}
+
+const closeLoginModal = () => {
+  isLoginModalOpen.value = false
+}
+
+const handleLoginSuccess = () => {
+  // Handle login success
+}
+
+const handleLogout = () => {
+  localStorage.removeItem('user')
+  if (window.location.pathname === '/profile') {
+    window.location.href = '/'
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -115,6 +176,111 @@
 
     .social-links {
       justify-content: center;
+    }
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.logo {
+  img {
+    height: 40px;
+  }
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: $text-color;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+
+  &:hover,
+  &.router-link-active {
+    color: $primary-color;
+  }
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+
+  i {
+    font-size: 1rem;
+  }
+}
+
+.btn-primary {
+  background-color: $primary-color;
+  color: $white;
+  border: none;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}
+
+.btn-outline {
+  border: 1px solid $primary-color;
+  color: $primary-color;
+  background: none;
+
+  &:hover {
+    background-color: $primary-color;
+    color: $white;
+  }
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: $text-color;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+
+  .auth-buttons {
+    .btn {
+      padding: 0.5rem;
+      
+      span {
+        display: none;
+      }
     }
   }
 }

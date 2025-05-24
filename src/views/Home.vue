@@ -4,10 +4,10 @@
     <section class="hero">
       <div class="hero-content">
         <h1 class="hero-title">Проектно-строительная мастерская Регион 24</h1>
-        <p class="hero-subtitle">Кровельные, отделочные, бетонные, прокладка инженерных комуникаций</p>
+        <p class="hero-subtitle">Кровельные работы, отделочные работы, бетонные работы, прокладка инженерных комуникаций</p>
         <div class="hero-buttons">
           <router-link to="/portfolio" class="btn btn-primary">Наши работы</router-link>
-          <router-link to="/contacts" class="btn btn-secondary">Связаться с нами</router-link>
+          <router-link to="/contacts" class="btn btn-primary">Связаться с нами</router-link>
         </div>
       </div>
       <div class="hero-overlay"></div>
@@ -41,7 +41,10 @@
             <div class="service-content">
               <h3>{{ service.title }}</h3>
               <p>{{ service.description }}</p>
-              <router-link :to="'/services#' + service.id" class="btn btn-secondary">Подробнее</router-link>
+              <div class="service-actions">
+                <router-link :to="{ name: 'service-details', params: { id: service.id }}" class="btn btn-primary">Подробнее</router-link>
+                <router-link to="/contacts" class="btn btn-secondary">Заказать услугу</router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -81,26 +84,26 @@ const services = ref([
     id: 'design',
     title: 'Кровельные работы',
     description: 'Мы занимаемся кровельными работами, начиная от проектирования и заканчивая монтажом и ремонтом кровельных систем.',
-    image: new URL('@/assets/images/services/design.jpg', import.meta.url).href
+    image: new URL('@/assets/images/services/roof.avif', import.meta.url).href
   },
   { 
     id: 'construction',
     title: 'Отделочные работы',
     description: 'Мы занимаемся отделочными работами, начиная от проектирования и заканчивая монтажом и ремонтом отделочных систем.',
-    image: new URL('@/assets/images/services/design.jpg', import.meta.url).href
+    image: new URL('@/assets/images/services/finish.avif', import.meta.url).href
   },
   {
     id: 'renovation',
     title: 'Бетонные работы',
     description: 'Мы занимаемся бетонными работами, начиная от проектирования и заканчивая монтажом и ремонтом бетонных систем.',
-    image: new URL('@/assets/images/services/design.jpg', import.meta.url).href
+    image: new URL('@/assets/images/services/concrete.avif', import.meta.url).href
   },
     
   {
     id: 'renovation',
     title: 'Прокладка инженерных коммуникаций',
     description: 'Мы занимаемся прокладкой инженерных коммуникаций, начиная от проектирования и заканчивая монтажом и ремонтом инженерных коммуникаций.',
-    image: new URL('@/assets/images/services/design.jpg', import.meta.url).href
+    image: new URL('@/assets/images/services/lying.avif', import.meta.url).href
   },
     
 ])
@@ -112,6 +115,10 @@ const services = ref([
   display: grid;
   grid-template-columns: repeat(2, minmax(250px, 1fr));
   gap: 2rem;
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+  }
 }
 .home {
   .hero {
@@ -258,6 +265,38 @@ const services = ref([
         p {
           margin-bottom: 1.5rem;
         }
+      }
+    }
+  }
+
+  .service-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: $transition;
+
+    &.btn-primary {
+      background-color: $primary-color;
+      color: $white;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+
+    &.btn-secondary {
+      background-color: $light-gray;
+      color: $text-color;
+
+      &:hover {
+        background-color: darken($light-gray, 10%);
       }
     }
   }

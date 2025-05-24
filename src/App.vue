@@ -14,6 +14,8 @@ import Footer from '@/components/Footer.vue'
 </script>
 
 <style lang="scss">
+@import '@/assets/styles/main.scss';
+
 .app {
   min-height: 100vh;
   display: flex;

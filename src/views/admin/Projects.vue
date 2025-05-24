@@ -124,21 +124,17 @@ const deleteProject = (project) => {
 const handleImageUpload = (event) => {
   const file = event.target.files[0]
   if (file) {
-    // Here you would typically upload the file to your server
-    // and get back a URL to store in projectForm.value.image
     projectForm.value.image = URL.createObjectURL(file)
   }
 }
 
 const saveProject = () => {
   if (editingProject.value) {
-    // Update existing project
     const index = projects.value.findIndex(p => p.id === editingProject.value.id)
     if (index !== -1) {
       projects.value[index] = { ...projectForm.value }
     }
   } else {
-    // Add new project
     projects.value.push({
       id: projects.value.length + 1,
       ...projectForm.value

@@ -27,6 +27,22 @@
           <router-link to="/about">О нас</router-link>
           <router-link to="/contacts">Контакты</router-link>
         </div>
+        <div class="auth-buttons">
+          <template v-if="isAuthenticated">
+            <router-link to="/profile" class="btn btn-outline">
+              <i class="fas fa-user"></i>
+              <span>Личный кабинет</span>
+            </router-link>
+            <button @click="handleLogout" class="btn btn-text">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Выйти</span>
+            </button>
+          </template>
+          <button v-else @click="openLoginModal" class="btn btn-primary">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Войти</span>
+          </button>
+        </div>
       </div>
     </nav>
     <div class="mobile-nav" :class="{ 'nav-open': isMenuOpen }">
@@ -37,14 +53,21 @@
       <router-link to="/contacts" class="nav-item" @click="closeMenu">Контакты</router-link>
     </div>
     <div class="menu-overlay" :class="{ 'overlay-open': isMenuOpen }" @click="closeMenu"></div>
+    <LoginModal 
+      :is-open="isLoginModalOpen"
+      @close="closeLoginModal"
+      @login-success="handleLoginSuccess"
+    />
   </header>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import BurgerMenu from './BurgerMenu.vue'
+import LoginModal from './LoginModal.vue'
 
 const isMenuOpen = ref(false)
+const isLoginModalOpen = ref(false)
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
@@ -53,19 +76,38 @@ const toggleMenu = () => {
 const closeMenu = () => {
   isMenuOpen.value = false
 }
+
+const openLoginModal = () => {
+  isLoginModalOpen.value = true
+}
+
+const closeLoginModal = () => {
+  isLoginModalOpen.value = false
+}
+
+const handleLoginSuccess = () => {
+  // Handle login success
+}
+
+const handleLogout = () => {
+  localStorage.removeItem('user')
+  if (window.location.pathname === '/profile') {
+    window.location.href = '/'
+  }
+}
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/variables.scss';
+
 .main-header {
   background: #7395AE;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  color: white;
+  color: $white;
 }
 
 .header-top {
-  position: sticky;
-  top: 0;
   background-color: #557A95;
   padding: 0.5rem 0;
   
@@ -172,6 +214,59 @@ const closeMenu = () => {
   &.overlay-open {
     opacity: 1;
     visibility: visible;
+  }
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: $transition;
+  text-decoration: none;
+
+  i {
+    font-size: 1rem;
+  }
+}
+
+.btn-primary {
+  background-color: $primary-color;
+  color: $white;
+  border: none;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}
+
+.btn-outline {
+  border: 1px solid $primary-color;
+  color: $primary-color;
+  background: none;
+
+  &:hover {
+    background-color: $primary-color;
+    color: $white;
+  }
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: $text-color;
+
+  &:hover {
+    color: $primary-color;
   }
 }
 

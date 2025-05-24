@@ -17,9 +17,9 @@
               <i class="fas fa-map-marker-alt"></i>
             </div>
             <h3>Адрес</h3>
-            <p>123 Строительная улица</p>
-            <p>Район строительства</p>
-            <p>Город, область 12345</p>
+            <p>Северное шоссе, д. 11д к. 1, офис 5</p>
+            <p>Район Северный</p>
+            <p>Город Красноярск</p>
           </div>
           <div class="info-card">
             <div class="info-icon">
@@ -91,7 +91,8 @@
             </form>
           </div>
           <div class="map-container">
-            <div id="map" class="map"></div>
+            <img src="@/assets/images/map.jpg">
+            <!-- <div id="map" ref="mapContainer" class="map" style="width: 600px; height: 400px"></div> -->
           </div>
         </div>
       </div>
@@ -103,6 +104,47 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
+const mapContainer = ref(null);
+
+onMounted(async () => {
+  await initMap();
+});
+
+async function initMap() {
+  // Проверяем, что API загружено
+  if (!window.ymaps3) {
+    console.error('Yandex Maps API not loaded');
+    return;
+  }
+
+  // Ждем загрузки API
+  await window.ymaps3.ready;
+
+  const { YMap, YMapDefaultSchemeLayer } = window.ymaps3;
+
+  try {
+    // Инициализируем карту
+    const map = new YMap(
+      // Используем ref контейнера
+      mapContainer.value,
+      {
+        location: {
+          center: [37.588144, 55.733842],
+          zoom: 10
+        }
+      }
+    );
+
+    // Добавляем слой карты
+    map.addChild(new YMapDefaultSchemeLayer());
+    
+    // Можно сохранить инстанс карты в ref если нужен доступ из других методов
+    // mapInstance.value = map;
+
+  } catch (error) {
+    console.error('Error initializing map:', error);
+  }
+}
 const form = ref({
   name: '',
   email: '',
@@ -160,7 +202,7 @@ onMounted(() => {
   background-color: $light-gray;
   .contacts-header {
     background-color: $light-gray;
-    padding: 5rem 0;
+    padding: 5rem 0 2rem;
     text-align: center;
 
     h1 {
@@ -222,7 +264,9 @@ onMounted(() => {
       }
     }
   }
-
+  .map-container img{
+    object-fit: cover;
+  }
   .contact-form {
     background: $white;
     padding: 2rem;
@@ -260,7 +304,6 @@ onMounted(() => {
   }
 
   .map-container {
-    height: 500px;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

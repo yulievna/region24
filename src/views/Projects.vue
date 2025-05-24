@@ -37,6 +37,8 @@
                 <span class="project-category">{{ project.category }}</span>
                 <span class="project-date">{{ project.date }}</span>
               </div>
+              <router-link class="btn btn-secondary">Подробнее</router-link>
+
             </div>
           </div>
         </div>
@@ -63,24 +65,26 @@ const projects = ref([
     title: 'Кровельные работы в жилом доме',
     description: 'Комплексные кровельные работы с использованием современных материалов',
     category: 'Кровельные работы',
-    date: '15 марта 2024',
-    image: '/images/projects/project1.jpg'
+    date: '15 марта 2025',
+    image: new URL('@/assets/images/projects/project1.avif', import.meta.url).href,
   },
   {
     id: 2,
-    title: 'Отделка квартиры',
+    title: 'Черновая отделка квартиры',
     description: 'Полный цикл отделочных работ в современном стиле',
     category: 'Отделочные работы',
-    date: '10 марта 2024',
-    image: '/images/projects/project2.jpg'
+    date: '10 апреля 2024',
+    image: new URL('@/assets/images/projects/project2.avif', import.meta.url).href,
+
   },
   {
     id: 3,
     title: 'Бетонные работы на объекте',
     description: 'Профессиональное бетонирование с использованием современной техники',
     category: 'Бетонные работы',
-    date: '5 марта 2024',
-    image: '/images/projects/project3.jpg'
+    date: '5 марта 2023',
+    image: new URL('@/assets/images/projects/project3.jpg', import.meta.url).href,
+
   }
 ])
 
@@ -100,7 +104,7 @@ const filteredProjects = computed(() => {
 
   .projects-header {
     background-color: $light-gray;
-    padding: 5rem 0;
+    padding: 5rem 0 2rem;
     text-align: center;
 
     h1 {
@@ -115,7 +119,7 @@ const filteredProjects = computed(() => {
   }
 
   .projects-grid {
-    padding: 5rem 0;
+    padding: 2rem 0;
   }
 
   .projects-filters {
@@ -179,8 +183,10 @@ const filteredProjects = computed(() => {
     }
 
     .project-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       padding: 1.5rem;
-
       h3 {
         margin: 0 0 0.5rem;
       }
@@ -196,6 +202,10 @@ const filteredProjects = computed(() => {
         font-size: 0.875rem;
         color: #666;
       }
+    }
+    .btn{
+      margin-top: 20px;
+      width: 150px;
     }
   }
 }

@@ -4,12 +4,15 @@ import About from '../views/About.vue'
 import Services from '../views/Services.vue'
 import Projects from '../views/Projects.vue'
 import Contacts from '../views/Contacts.vue'
+import ServiceDetails from '../views/ServiceDetails.vue'
+import ProjectDetails from '../views/ProjectDetails.vue'
 import AdminLayout from '../views/admin/AdminLayout.vue'
 import AdminLogin from '../views/admin/AdminLogin.vue'
 import AdminDashboard from '../views/admin/Dashboard.vue'
 import AdminProjects from '../views/admin/Projects.vue'
 import AdminServices from '../views/admin/Services.vue'
 import AdminApplications from '../views/admin/Applications.vue'
+import Profile from '../views/Profile.vue'
 
 const routes = [
   {
@@ -28,9 +31,19 @@ const routes = [
     component: Services
   },
   {
+    path: '/services/:id',
+    name: 'service-details',
+    component: ServiceDetails
+  },
+  {
     path: '/projects',
     name: 'projects',
     component: Projects
+  },
+  {
+    path: '/projects/:id',
+    name: 'project-details',
+    component: ProjectDetails
   },
   {
     path: '/contacts',
@@ -68,6 +81,12 @@ const routes = [
         component: AdminApplications
       }
     ]
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+    meta: { requiresAuth: true }
   }
 ]
 

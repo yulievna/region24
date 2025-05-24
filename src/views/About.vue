@@ -18,7 +18,7 @@
             <p>На протяжении многих лет мы построили свою репутацию на доверии, экспертизе и обязательстве достичь превосходного качества. Наша команда профессионалов собирает вместе десятилетия опыта в различных аспектах строительства и дизайна.</p>
           </div>
           <div class="story-image">
-            <img src="@/assets/images/services/design.jpg" alt="Company History">
+            <img src="@/assets/images/hero-bg.jpg" alt="Company History">
           </div>
         </div>
       </div>
@@ -164,7 +164,6 @@ const stats = ref([
   }
 
   .company-story {
-    padding: 5rem 0;
 
     .story-content {
       display: grid;

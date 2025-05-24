@@ -1,0 +1,34 @@
+// Colors
+$primary-color: #2c3e50;
+$secondary-color: #42b983;
+$text-color: #2c3e50;
+$light-gray: #f8f9fa;
+$white: #ffffff;
+$black: #000000;
+
+// Transitions
+$transition: all 0.3s ease;
+
+// Breakpoints
+$mobile: 768px;
+$tablet: 1024px;
+$desktop: 1280px;
+
+// Mixins
+@mixin mobile {
+  @media (max-width: $mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: $desktop) {
+    @content;
+  }
+} 
